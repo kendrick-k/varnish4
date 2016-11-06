@@ -1,5 +1,5 @@
-Varnish 4 VCL boilerplate
-=========================
+Varnish 4 VCL with Ansible
+==========================
 
 # Varnish 4
 
