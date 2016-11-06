@@ -1,46 +1,83 @@
-vcl 4.0;
+	
+	vcl 4.0;
+	
+	import std;
 
-acl purge {
-    "localhost";
-}
+	# Servers authorized to purge
 
-backend default {
-    .host = "host";
-    .port = "80";
-}
+	include "import/acl.vcl";
 
-sub vcl_recv {
 
-}
 
-#sub vcl_pipe {
-#    return (pipe);
-#}
+	# Backend definitions
 
-#sub vcl_pass {
-#    return (pass);
-#}
+	include "import/backend.vcl";
 
-sub vcl_hash {
-    return (lookup)
-}
 
-sub vcl_hit {
 
-}
+	# imports
 
-sub vcl_miss {
+	include "import/init.vcl";
+	include "import/hash.vcl";
+	include "import/recv.vcl";
+	include "import/deliver.vcl";
+	include "import/backend_fetch.vcl";
+	include "import/backend_response.vcl";
 
-}
 
-sub vcl_backend_fetch {
 
-}
+	sub vcl_init {
 
-sub vcl_backend_response {
+		call    import_init;
 
-}
+	}
 
-sub vcl_deliver {
 
-}
+
+	sub vcl_recv {
+
+        call    import_recv;
+
+	}
+
+
+
+	sub vcl_hash {
+
+		call    import_hash;
+
+	}
+
+
+
+	sub vcl_hit {
+	}
+
+
+
+	sub vcl_miss {
+	}
+
+
+
+	sub vcl_backend_fetch {
+
+		call    import_backend_fetch;
+
+	}
+
+
+
+	sub vcl_backend_response {
+
+	    call    import_backend_response;
+
+	}
+
+
+
+	sub vcl_deliver {
+
+		call    import_deliver;
+
+	}
